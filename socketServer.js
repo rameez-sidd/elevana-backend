@@ -5,11 +5,22 @@ export const initSocketServer = (server) => {
         cors: {
             origin: process.env.CLIENT_URL, // your frontend URL
             methods: ["GET", "POST"]
+        },
+        // Critical for production stability
+        pingTimeout: 30000, // 30 seconds
+        pingInterval: 15000, // 15 seconds
+        transports: ["websocket", "polling"], // Fallback to polling if WS fails
+        allowEIO3: true, // For Socket.IO v2 client compatibility
+        connectionStateRecovery: {
+            // Enable reconnection recovery
+            maxDisconnectionDuration: 2 * 60 * 1000, // 2 minutes
+            skipMiddlewares: true,
         }
     })
 
     // Store admin socket mappings
     const adminSockets = new Map();
+    
 
     io.on("connection", (socket) => {
         console.log('A user connected')
