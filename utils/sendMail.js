@@ -7,7 +7,7 @@ const _dirname = path.resolve()
 const sendMail = async (options) => {
     const transporter = nodemailer.createTransport({
         host: process.env.SMTP_HOST,
-        port: parseInt(process.env.SMTP_POST || '587'),
+        port: parseInt(process.env.SMTP_PORT || '587'),
         service: process.env.SMTP_SERVICE,
         auth: {
             user: process.env.SMTP_MAIL,
