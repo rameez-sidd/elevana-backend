@@ -16,7 +16,11 @@ const sendMail = async (options) => {
 
     })
 
+    console.log(transporter)
+    
+    
     const {email, subject, template, data} = options
+    console.log(email, subject, template, data)
 
     // get the path to the email template file
     const templatePath = path.join(_dirname, "./mails", template)
@@ -30,8 +34,9 @@ const sendMail = async (options) => {
         subject,
         html
     }
-    
+    console.log("Sending the mail")
     await transporter.sendMail(mailOptions)
+    console.log("Mail sent")
 
 
 }
