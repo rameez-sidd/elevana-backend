@@ -38,17 +38,23 @@ export const registrationUser = CatchAsyncError(async (req, res, next) => {
             password,
         }
 
+        console.log(name, email, password);
+        
+        
         const activationToken = createActivationToken(user)
-
+        console.log(activationToken);
+        
         const activationCode = activationToken.activationCode
-
+        console.log(activationCode);
+        
         const data = {
             user: {
                 name: user.name,
             },
             activationCode
         }
-
+        
+        console.log(data.user.name);
         const html = await ejs.renderFile(path.join(_dirname, "./mails/activation-mail.ejs"), data)
 
         try {
@@ -59,18 +65,22 @@ export const registrationUser = CatchAsyncError(async (req, res, next) => {
                 data,
             })
 
+            console.log("mail sent")
+            
             res.status(201).json({
                 success: true,
                 message: `Please check your email: ${user.email} to activate your account`,
                 activationToken: activationToken.token,
             })
         } catch (error) {
+            console.log("problem in mail")
             return next(new ErrorHandler(error.message, 500))
         }
 
 
     }
     catch (error) {
+        console.log("Some other issue")
         return next(new ErrorHandler(error.message, 500))
     }
 })
